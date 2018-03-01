@@ -109,7 +109,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('BITRISE_KEYSTORE_FILE')
+            storeFile file(System.getenv('BITRISE_KEYSTORE_FILE'))
             storePassword System.getenv('BITRISE_RELEASE_STORE_PASSWORD')
             keyAlias System.getenv('BITRISE_KEY_ALIAS')
             keyPassword System.getenv('BITRISE_KEY_PASSWORD')
