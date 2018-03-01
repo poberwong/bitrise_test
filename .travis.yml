@@ -34,11 +34,12 @@ before_script:
 
 script:
   # - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xctool -project ios/AppRunner.xcodeproj -scheme AppRunner -sdk iphoneos -configuration Release OBJROOT=$PWD/build SYMROOT=$PWD/build ONLY_ACTIVE_ARCH=NO clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO DEAD_CODE_STRIPPING=NO; fi
-  - if [[ "$TEST_TYPE" == "android" ]]; then cd android; TERM=dumb ./gradlew assembleRelease; fi
+  - if [[ "$TEST_TYPE" == "android" ]]; then cd android && ./gradlew assembleRelease; fi
 
 publish_to_fir:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then gem install fir-cli; fi
-  # - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then fir p ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ls -al $HOME/build/poberwong/bitrise_test/android/app/build/outputs/apk/ ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then fir p $HOME/build/poberwong/bitrise_test/android/app/build/outputs/apk/AndResGuard_app-armeabi-v7a-release/app-armeabi-v7a-release_aligned_signed.apk; fi
 
 notifications:
   slack:
