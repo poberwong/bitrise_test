@@ -1,0 +1,42 @@
+matrix:
+  include:
+    - os: osx
+      language: objective-c
+      osx_image: xcode7.3
+      xcode_project: TestEvent.xcodeproj
+      xcode_scheme: TestEvent
+    - os: linux
+      language: android
+      sudo: true
+      android:
+        components:
+          - platform-tools
+          - tools
+          - build-tools-23.0.3
+          - build-tools-23.0.1
+          - android-23
+          - extra-android-m2repository
+          - extra-google-m2repository
+
+before_install:
+  - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.0/install.sh | bash
+  - source ~/.bashrc
+  - nvm install 7.4
+  - node --version
+
+before_script:
+  - npm install
+
+script:
+  - npm run lint
+  # - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xctool -project ios/AppRunner.xcodeproj -scheme AppRunner -sdk iphoneos -configuration Release OBJROOT=$PWD/build SYMROOT=$PWD/build ONLY_ACTIVE_ARCH=NO clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO DEAD_CODE_STRIPPING=NO; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd android; TERM=dumb ./gradlew assembleRelease; fi
+
+publish_to_fir:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then gem install fir-cli; fi
+  # - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then fir p ; fi
+
+notifications:
+  slack:
+    rooms:
+      - precisource:dj0bdaE93PZdiQIbfoZiSjIw#ci
