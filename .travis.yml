@@ -37,7 +37,7 @@ script:
   # - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xctool -project ios/AppRunner.xcodeproj -scheme AppRunner -sdk iphoneos -configuration Release OBJROOT=$PWD/build SYMROOT=$PWD/build ONLY_ACTIVE_ARCH=NO clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO DEAD_CODE_STRIPPING=NO; fi
   - if [[ "$TEST_TYPE" == "android" ]]; then cd android && ./gradlew assembleRelease; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ls -al $HOME/build/poberwong/bitrise_test/android/app/build/outputs/apk/ ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then fir p $HOME/build/poberwong/bitrise_test/android/app/build/outputs/apk/app-release.apk; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then fir p $HOME/build/poberwong/bitrise_test/android/app/build/outputs/apk/app-release.apk -T $FIR_API_TOKEN; fi
 
 notifications:
   slack:
