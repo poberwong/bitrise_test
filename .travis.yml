@@ -27,8 +27,10 @@ before_install:
 before_script:
   - npm install
 
+# run_lint:
+#   - npm run lint
+
 script:
-  - npm run lint
   # - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xctool -project ios/AppRunner.xcodeproj -scheme AppRunner -sdk iphoneos -configuration Release OBJROOT=$PWD/build SYMROOT=$PWD/build ONLY_ACTIVE_ARCH=NO clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO DEAD_CODE_STRIPPING=NO; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cd android; TERM=dumb ./gradlew assembleRelease; fi
 
